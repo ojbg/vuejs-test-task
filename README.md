@@ -1,29 +1,19 @@
-# test-task
+# Test task for ArcaneBet front-end developer
 
-## Project setup
-```
-yarn install
-```
+We have fixtures with a list of sports, tournaments and matches. Every entity
+has a position number (0, 1, 2, etc...).
+Render matches hierarchically `Sport -> Tournaments -> Macthes`. Every entity inside
+group must be sorted by position in ascending order.
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+![alt text](./images/example.png)
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+Also, finish match form component to have ability to add new match in list.
+Required match fields are:
 
-### Run your tests
-```
-yarn run test
-```
+* Name
+* First competitor name
+* Second competitor name
+* Tournament
+* Position
 
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+After adding new match list must be automatically re-sorted
