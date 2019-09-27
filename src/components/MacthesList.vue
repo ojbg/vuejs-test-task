@@ -3,16 +3,28 @@
     <b-col>
       <match-form v-if="formVisible" @cancel="formVisible = false" class="mb-5" />
       <b-button @click="formVisible = true" class="mb-5">Add match</b-button>
-      <h5 class="text-center">Render matches list here</h5>
+      <h5 class="text-center">Matches</h5>
 
-      <div v-for="(sport,index) in orderedData" v-bind:key="index">
-        {{`${sport.position}.${sport.name}`}}
-        <div v-for="(tournament,index) in sport.tournament" v-bind:key="index">
-          {{`${tournament.position}.${tournament.name}`}}
-          <div
-            v-for="(match,index) in tournament.matches"
-            v-bind:key="index"
-          >{{`${match.position}.${match.name}`}}</div>
+      <!-- Matches -->
+      <div class="sport-layout" v-for="(sport,index) in orderedData" v-bind:key="index">
+        <!-- Sport -->
+        <h5>{{`${sport.position}.${sport.name}`}}</h5>
+        <div
+          class="tournament-layout"
+          v-for="(tournament,index) in sport.tournament"
+          v-bind:key="index"
+        >
+          <!-- Tournament -->
+          <h6>{{`${tournament.position}.${tournament.name}`}}</h6>
+          <div v-for="(match,index) in tournament.matches" v-bind:key="index">
+            <div class="match-layout">
+              <span>{{match.position}}</span>
+              <span>{{match.name}}</span>
+              <span>{{match.competitors[0].name}}</span>
+              <span class="bold">VS</span>
+              <span>{{match.competitors[1].name}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </b-col>
@@ -35,52 +47,81 @@ export default {
   },
   computed: {
     orderedData() {
-      const myData = [];
+      const data = [];
 
-      for (let i = 0; i < this.matches.length; i++) {
-        const sport = this.matches[i].tournament.sport;
-        const tournament = this.matches[i].tournament;
+      // Order data by using position in array
+      for (let match of this.matches) {
+        // Get nodes and filter duplicates
+        const { tournament, ...noTournament } = match;
+        const { sport, ...noSport } = tournament;
 
         // Sports
-        if (typeof myData[sport.position] === "undefined") {
-          myData[sport.position] = {
+        // Add a new object if it doesn't exist
+        if (!(sport.position in data)) {
+          data[sport.position] = {
             ...sport,
             tournament: []
           };
         }
 
         // Tournament
-        if (
-          typeof myData[sport.position].tournament[tournament.position] ===
-          "undefined"
-        ) {
-          myData[sport.position].tournament[tournament.position] = {
-            id: tournament.id,
-            position: tournament.position,
-            name: tournament.name,
+        if (!(tournament.position in data[sport.position].tournament)) {
+          data[sport.position].tournament[tournament.position] = {
+            ...noSport,
             matches: []
           };
         }
 
         // Matches
         if (
-          typeof myData[sport.position].tournament[tournament.position].matches[
-            this.matches[i].position
-          ] === "undefined"
+          !(
+            match.position in
+            data[sport.position].tournament[tournament.position].matches
+          )
         ) {
-          myData[sport.position].tournament[tournament.position].matches[
-            this.matches[i].position
-          ] = {
-            id: this.matches[i].id,
-            position: this.matches[i].position,
-            competitors: this.matches[i].competitors,
-            name: this.matches[i].name
-          };
+          data[sport.position].tournament[tournament.position].matches[
+            match.position
+          ] = { ...noTournament };
         }
       }
 
-      return myData;
+      return data;
     }
   }
 };
 </script>
+
+<style scoped>
+.sport-layout {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 2rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.tournament-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.2rem;
+}
+
+.match-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  border: 2px solid rgba(64, 64, 64, 0.1);
+  border-radius: 0.5rem;
+  gap: 0.1rem;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  padding: 0.2rem;
+  transition: 1s background-color ease-in-out;
+}
+
+.match-layout:hover {
+  background-color: rgba(64, 64, 64, 0.1);
+}
+</style>
