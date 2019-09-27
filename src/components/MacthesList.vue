@@ -1,9 +1,16 @@
 <template>
   <b-row>
     <b-col>
-      <match-form v-if="formVisible" @cancel="formVisible = false" class="mb-5" />
+      <match-form
+        v-if="formVisible"
+        @cancel="formVisible = false"
+        @addMatch="addMatch"
+        class="mb-5"
+      />
       <b-button @click="formVisible = true" class="mb-5">Add match</b-button>
       <h5 class="text-center">Matches</h5>
+
+      <b-alert v-model="displayAlert" variant="success" dismissible>{{alertMessage}}</b-alert>
 
       <!-- Matches -->
       <div class="sport-layout" v-for="(sport,index) in orderedData" v-bind:key="index">
@@ -42,8 +49,28 @@ export default {
   data() {
     return {
       formVisible: false,
-      matches
+      matches,
+      displayAlert: false,
+      alertMessage: ""
     };
+  },
+  methods: {
+    addMatch(match) {
+      try {
+        const id = this.getId();
+        match.id = id;
+        this.matches.push(match);
+
+        this.alertMessage = "New match added!";
+        this.displayAlert = true;
+      } catch (ex) {
+        this.alertMessage = `Cannot add match. ${ex}`;
+        this.displayAlert = true;
+      }
+    },
+    getId() {
+      return this.matches[this.matches.length - 1].id + 1;
+    }
   },
   computed: {
     orderedData() {
@@ -72,13 +99,21 @@ export default {
           };
         }
 
-        // Matches
+        // Matches        
+        const index =
+          data[sport.position].tournament[tournament.position].matches.length;
+
         if (
-          !(
-            match.position in
+          match.position > index ||
+          match.position in
             data[sport.position].tournament[tournament.position].matches
-          )
         ) {
+          // Update position and push
+          noTournament.position = index;
+          data[sport.position].tournament[tournament.position].matches.push({
+            ...noTournament
+          });
+        } else {
           data[sport.position].tournament[tournament.position].matches[
             match.position
           ] = { ...noTournament };
