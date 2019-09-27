@@ -1,3 +1,20 @@
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+
 # Test task for ArcaneBet front-end developer
 
 We have fixtures with a list of sports, tournaments and matches. Every entity
