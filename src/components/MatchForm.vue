@@ -82,11 +82,11 @@ export default {
           { name: this.form.competitorOneName },
           { name: this.form.competitorTwoName }
         ],
-        name: this.form.name,
+        name: `MATCH: ${this.form.name}`,
         position: this.form.position,
         tournament
       };
-      this.$emit("addItem", match);
+      this.$emit("addMatch", match);
       this.$emit("cancel");
     },
     validateForm() {
