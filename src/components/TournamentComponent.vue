@@ -1,7 +1,7 @@
 <template>
   <div class="tournament-layout">
     <h6>{{ `${tournament.position}.${tournament.name}` }}</h6>
-    <div v-for="(match, index) in matchesOrdered" v-bind:key="index">
+    <div v-for="match in matchesOrdered" v-bind:key="match.id">
       <!-- Match -->
       <match-component :match="match"></match-component>
     </div>
