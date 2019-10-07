@@ -24,11 +24,12 @@
           <!-- Tournament -->
           <h6>{{`${tournament.position}.${tournament.name}`}}</h6>
           <div v-for="(match,index) in tournament.matches" v-bind:key="index">
+            <!-- Match -->
             <div class="match-layout">
               <span>{{match.position}}</span>
               <span>{{match.name}}</span>
               <span>{{match.competitors[0].name}}</span>
-              <span class="bold">VS</span>
+              <strong>VS</strong>
               <span>{{match.competitors[1].name}}</span>
             </div>
           </div>
@@ -131,10 +132,6 @@ export default {
   display: grid;
   gap: 0.3rem;
   margin-top: 2rem;
-}
-
-.bold {
-  font-weight: bold;
 }
 
 .tournament-layout {
