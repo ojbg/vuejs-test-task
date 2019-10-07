@@ -5,8 +5,8 @@
     <span>{{ match.competitors[0].name }}</span>
     <strong>VS</strong>
     <span>{{ match.competitors[1].name }}</span>
-  </div></template
->
+  </div>
+</template>
 
 <script>
 export default {
