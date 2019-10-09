@@ -21,9 +21,9 @@
           <b-form-input id="second-competitor" v-model="form.competitorTwoName"></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-4" label="Tournament" label-for="tourn">
+        <b-form-group id="input-group-4" label="Tournament" label-for="tournament">
           <b-form-select
-            id="tourn"
+            id="tournament"
             v-model="form.tournament"
             :options="tournaments"
             text-field="name"
