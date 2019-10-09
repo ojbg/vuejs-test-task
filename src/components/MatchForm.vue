@@ -3,7 +3,7 @@
     <b-row class="justify-content-center">
       <b-form class="text-center">
         <h5>Add Match</h5>
-        <h5 v-show="error !== ''" class="text-danger">{{error}}</h5>
+        <h5 v-show="error" class="text-danger">{{error}}</h5>
 
         <b-form-group id="input-group-1" label="Match name" label-for="match-name">
           <b-form-input id="match-name" v-model="form.name"></b-form-input>
